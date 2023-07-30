@@ -1,4 +1,6 @@
-local interiorId = GetInteriorAtCoords(Config['logistics'].InteriorCoords.x, Config['logistics'].InteriorCoords.y, Config['logistics'].InteriorCoords.z)
+local Config_Name = 'logistics'
+
+local interiorId = GetInteriorAtCoords(Config[Config_Name].InteriorCoords.x, Config[Config_Name].InteriorCoords.y, Config[Config_Name].InteriorCoords.z)
 local lastIpl
 
 RegisterNetEvent('SyncLastIpl')
@@ -14,7 +16,7 @@ Citizen.CreateThread(function()
     local resource = GetCurrentResourceName()
     local lastIplFile = LoadResourceFile(resource, 'last_ipl.json')
     if lastIplFile then
-        SaveResourceFile(resource, 'last_ipl.json', '{"logistics-lastIpl": "'..Config['logistics'].DefaultEntitySet..'"}', -1)
+        SaveResourceFile(resource, 'last_ipl.json', '{"'.. Config_Name ..'"-lastIpl": "'..Config[Config_Name].DefaultEntitySet..'"}', -1)
     end
 
     TriggerServerEvent('RequestLastIpl')

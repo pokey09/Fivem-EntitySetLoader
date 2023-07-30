@@ -1,16 +1,18 @@
+local Config_Name = 'logistics'
+
 local lastIpl
 
 function GetLastIpl()
     local data = LoadLastIplData()
-    if data and data['logistics-lastIpl'] then
-        return data['logistics-lastIpl']
+    if data and data[Config_Name ..'-lastIpl'] then
+        return data[Config_Name ..'-lastIpl']
     else
-        return Config['logistics'].DefaultEntitySet
+        return Config[Config_Name].DefaultEntitySet
     end
 end
 
 function SetLastIpl(ipl)
-    local data = { ['logistics-lastIpl'] = ipl }
+    local data = { [Config_Name ..'-lastIpl'] = ipl }
     SaveLastIplData(data)
 end
 
@@ -53,15 +55,15 @@ end)
 
 RegisterNetEvent('SyncDisableUsers')
 AddEventHandler('SyncDisableUsers', function()
-    if lastIpl and lastIpl ~= Config['logistics'].DefaultEntitySet then
+    if lastIpl and lastIpl ~= Config[Config_Name].DefaultEntitySet then
         TriggerUnLoadGarageEntities(lastIpl)
-        lastIpl = Config['logistics'].DefaultEntitySet
+        lastIpl = Config[Config_Name].DefaultEntitySet
         SetLastIpl(lastIpl)
     end
 end)
 
-RegisterCommand(Config['logistics'].ComamndName, function(source, args, raw)
-    local iplName = Config['logistics'].EntitySetBaseName .. args[1]
+RegisterCommand(Config[Config_Name].ComamndName, function(source, args, raw)
+    local iplName = Config[Config_Name].EntitySetBaseName .. args[1]
     TriggerEvent("SyncDisableUsers")
     TriggerEvent("SyncEnableUsers", iplName)
 end, false)
